@@ -4,7 +4,7 @@ const permissionSchema = new mongoose.Schema({
   key: {
     type: String,
     required: true,
-    unique: true // Ej: "rbac:assign", "user:update"
+    unique: true 
   },
   description: {
     type: String
