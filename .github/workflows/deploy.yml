@@ -36,5 +36,5 @@ jobs:
           echo "${{ secrets.ENV_FILE }}" > .env
           docker pull arieling/ms-rbac
           docker stop ms-rbac || true
-          docker rm ms-rbacs || true
+          docker rm ms-rbac || true
           docker run -d --name ms-rbac -p 4005:4005 --env-file .env arieling/ms-rbac
