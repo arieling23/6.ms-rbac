@@ -15,7 +15,7 @@ Thumbs.db
 # Docker
 .dockerignore
 
-# VSCode
+
 .vscode/
 
 # GitHub workflows temporales
