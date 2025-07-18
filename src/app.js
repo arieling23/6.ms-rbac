@@ -10,9 +10,18 @@ require('dotenv').config();
 const PORT = process.env.PORT || 4005;
 const MONGO_URI = process.env.MONGO_URI;
 const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://localhost:5672';
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://54.225.75.133:3000';
 
 const app = express();
-app.use(cors());
+
+// ✅ CORS configurado correctamente
+const corsOptions = {
+  origin: FRONTEND_ORIGIN,
+  credentials: true,
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Para preflight
+
 app.use(express.json());
 
 // Rutas API
@@ -42,7 +51,6 @@ const handleUserRegistered = async (msg) => {
   }
 };
 
-// Función para conectar a RabbitMQ y escuchar eventos
 // Función para conectar a RabbitMQ y escuchar eventos desde exchange "user"
 const startRabbitMQListener = async () => {
   try {
@@ -69,7 +77,6 @@ const startRabbitMQListener = async () => {
     console.error('🔴 Error al conectar a RabbitMQ:', err.message);
   }
 };
-
 
 // Conectar a Mongo y levantar servidor
 mongoose.connect(MONGO_URI)

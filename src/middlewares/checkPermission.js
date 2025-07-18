@@ -1,6 +1,6 @@
 const { userHasPermission } = require('../services/rbacService');
 
-// Middleware para verificar si el usuario tiene un permiso específico
+
 const checkPermission = (requiredPermission) => {
   return async (req, res, next) => {
     const userId = req.user?.userId;
