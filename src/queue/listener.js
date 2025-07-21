@@ -8,20 +8,20 @@ const startRabbitMQListener = async () => {
 
     const exchange = 'user';
     const routingKey = 'user.registered';
-    const queueName = 'rbac-service'; // puedes personalizarla
+    const queueName = 'rbac-service'; 
 
-    // Asegura el exchange
+    
     await channel.assertExchange(exchange, 'topic', { durable: true });
 
-    // Declara una cola
+    
     await channel.assertQueue(queueName, { durable: true });
 
-    // Une la cola al exchange
+    
     await channel.bindQueue(queueName, exchange, routingKey);
 
     console.log(`📡 Escuchando eventos en exchange '${exchange}' con routing key '${routingKey}'`);
 
-    // Consumir mensajes
+   
     channel.consume(queueName, async (msg) => {
       if (msg !== null) {
         await handleUserRegistered(msg);

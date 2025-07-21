@@ -5,7 +5,7 @@ const amqp = require('amqplib');
 const rbacRoutes = require('./routes/rbacRoutes');
 const UserRole = require('./models/UserRole');
 
-// Variables de entorno
+
 require('dotenv').config();
 const PORT = process.env.PORT || 4005;
 const MONGO_URI = process.env.MONGO_URI;
@@ -14,21 +14,21 @@ const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://54.225.75.133:300
 
 const app = express();
 
-// ✅ CORS configurado correctamente
+
 const corsOptions = {
   origin: FRONTEND_ORIGIN,
   credentials: true,
 };
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Para preflight
+app.options('*', cors(corsOptions)); 
 
 app.use(express.json());
 
-// Rutas API
+
 app.use('/api/rbac', rbacRoutes);
 app.get('/', (_, res) => res.send('✅ ms-rbac activo'));
 
-// Función para procesar evento user.registered
+
 const handleUserRegistered = async (msg) => {
   try {
     const event = JSON.parse(msg.content.toString());
@@ -51,7 +51,7 @@ const handleUserRegistered = async (msg) => {
   }
 };
 
-// Función para conectar a RabbitMQ y escuchar eventos desde exchange "user"
+
 const startRabbitMQListener = async () => {
   try {
     const connection = await amqp.connect(RABBITMQ_URL);
@@ -78,14 +78,14 @@ const startRabbitMQListener = async () => {
   }
 };
 
-// Conectar a Mongo y levantar servidor
+
 mongoose.connect(MONGO_URI)
   .then(() => {
     console.log('🟢 Conectado a MongoDB');
 
     app.listen(PORT, () => {
       console.log(`🚀 ms-rbac corriendo en puerto ${PORT}`);
-      startRabbitMQListener(); // 🔁 Escuchar eventos
+      startRabbitMQListener(); 
     });
   })
   .catch((err) => {
